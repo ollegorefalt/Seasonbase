@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Säkra din säsong</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: rgba(255,255,255,0.08);
+      --card-border: rgba(255,255,255,0.14);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --accent: #38bdf8;
+      --accent-hover: #0ea5e9;
+      --input: rgba(255,255,255,0.10);
+      --success: #22c55e;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,0.20), transparent 30%),
+        radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 20%),
+        linear-gradient(135deg, #0f172a 0%, #111827 50%, #1e293b 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      padding: 24px 0 8px;
+    }
+
+    .logo {
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-size: 1.1rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 28px;
+      align-items: center;
+      padding: 40px 0 72px;
+    }
+
+    .left {
+      max-width: 460px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2.4rem, 5vw, 4.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+    }
+
+    .sub {
+      font-size: 1.06rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    .keypoints {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 26px;
+    }
+
+    .keypoint {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .anchor-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 18px;
+      border-radius: 16px;
+      background: var(--accent);
+      color: #082f49;
+      text-decoration: none;
+      font-weight: 800;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .anchor-button:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .form-card {
+      padding: 28px;
+    }
+
+    .form-title {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+    }
+
+    .form-subtitle {
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.98rem;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #e2e8f0;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: var(--input);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 14px;
+      font: inherit;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #94a3b8;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.14);
+    }
+
+    /* Fix för dropdown-alternativ */
+    select,
+    option {
+      color: #f8fafc;
+      background-color: #1e293b;
+    }
+
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .segmented input {
+      display: none;
+    }
+
+    .segmented label {
+      margin: 0;
+      text-align: center;
+      padding: 13px 10px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .segmented input:checked + label {
+      background: rgba(56,189,248,0.16);
+      border-color: rgba(56,189,248,0.65);
+      color: #e0f2fe;
+    }
+
+    .cta {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      background: var(--accent);
+      color: #082f49;
+      font-weight: 800;
+      font-size: 1rem;
+      border-radius: 16px;
+      padding: 15px 18px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .cta:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .mini-note {
+      margin-top: 8px;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: #94a3b8;
+    }
+
+    .success-message {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(34,197,94,0.14);
+      border: 1px solid rgba(34,197,94,0.35);
+      color: #dcfce7;
+      line-height: 1.5;
+    }
+
+    footer {
+      padding: 0 0 32px;
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        padding-top: 24px;
+      }
+
+      .left {
+        max-width: 100%;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      .segmented {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <div class="logo">Seasonbase</div>
+    </nav>
+
+    <section class="hero">
+      <div class="left">
+        <div class="eyebrow">Launching soon</div>
+        <h1>Jobb och boende för din säsong</h1>
+        <p class="sub">
+          Samlat per destination. Mindre kaos, snabbare väg till jobb och boende.
+        </p>
+
+        <div class="keypoints">
+          <div class="keypoint">Jobb i fjällen och Alperna</div>
+          <div class="keypoint">Boende samlat på ett ställe</div>
+          <div class="keypoint">Tidigt access för waitlisten</div>
+        </div>
+
+        <a href="#waitlist" class="anchor-button">Gå med i waitlisten</a>
+      </div>
+
+      <div class="card form-card" id="waitlist">
+        <h2 class="form-title">Säkra din plats</h2>
+        <p class="form-subtitle">
+          Skriv upp dig för tidig access och hjälp oss prioritera rätt destinationer först.
+        </p>
+
+        <form id="waitlistForm">
+          <div class="row">
+            <div>
+              <label for="name">Namn</label>
+              <input id="name" name="name" type="text" placeholder="Ditt namn" required />
+            </div>
+            <div>
+              <label for="email">E-post</label>
+              <input id="email" name="email" type="email" placeholder="du@mail.com" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="phone">Telefonnummer</label>
+              <input id="phone" name="phone" type="tel" placeholder="Valfritt" />
+            </div>
+            <div>
+              <label for="destination">Destination</label>
+              <select id="destination" name="destination" required>
+                <option value="">Välj destination</option>
+                <option>Åre</option>
+                <option>Sälen</option>
+                <option>Vemdalen</option>
+                <option>Chamonix</option>
+                <option>Verbier</option>
+                <option>Val Thorens</option>
+                <option>St Anton</option>
+                <option>Annan destination</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label>Vad söker du?</label>
+            <div class="segmented">
+              <div>
+                <input type="radio" id="jobb" name="interest" value="jobb" required />
+                <label for="jobb">Jobb</label>
+              </div>
+              <div>
+                <input type="radio" id="boende" name="interest" value="boende" />
+                <label for="boende">Boende</label>
+              </div>
+              <div>
+                <input type="radio" id="bada" name="interest" value="båda" />
+                <label for="bada">Båda</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="season">När planerar du säsongen?</label>
+              <select id="season" name="season" required>
+                <option value="">Välj period</option>
+                <option>Vintern 2026/2027</option>
+                <option>Sommaren 2026</option>
+                <option>Så snart som möjligt</option>
+                <option>Bara nyfiken</option>
+              </select>
+            </div>
+            <div>
+              <label for="experience">Gjort säsong tidigare?</label>
+              <select id="experience" name="experience" required>
+                <option value="">Välj</option>
+                <option>Ja</option>
+                <option>Nej</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label for="challenge">Största problemet just nu?</label>
+            <textarea
+              id="challenge"
+              name="challenge"
+              placeholder="T.ex. svårt att få svar på jobb eller hitta boende"
+            ></textarea>
+          </div>
+
+          <button type="submit" class="cta">Säkra min plats</button>
+
+          <div class="mini-note">
+            Ingen spam. Vi hör av oss när tidig access öppnar.
+          </div>
+
+          <div class="success-message" id="successMessage">
+            Tack — du är med på waitlisten.
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      Konceptversion • jobb + boende för säsongare
+    </footer>
+  </div>
+
+  <script>
+    const form = document.getElementById("waitlistForm");
+    const successMessage = document.getElementById("successMessage");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      successMessage.style.display = "block";
+      form.reset();
+      successMessage.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    });
+  </script>
+</body>
+</html>
