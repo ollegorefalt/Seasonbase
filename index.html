@@ -3,145 +3,253 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Säkra din säsong</title>
+  <title>Seasonbase — Jobb och boende för din säsong</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --card: rgba(255,255,255,0.08);
-      --card-border: rgba(255,255,255,0.14);
-      --text: #f8fafc;
-      --muted: #cbd5e1;
-      --accent: #38bdf8;
-      --accent-hover: #0ea5e9;
-      --input: rgba(255,255,255,0.10);
+      --bg-1: #08111f;
+      --bg-2: #0d1726;
+      --bg-3: #132033;
+
+      --surface: rgba(255, 255, 255, 0.065);
+      --surface-strong: rgba(255, 255, 255, 0.09);
+      --surface-border: rgba(255, 255, 255, 0.12);
+
+      --text: #f8fbff;
+      --muted: #c4d0df;
+      --muted-soft: #94a6bb;
+
+      --accent: #78c9ee;
+      --accent-strong: #93daf7;
+      --accent-deep: #0d3344;
+
       --success: #22c55e;
-      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+
+      --radius-xl: 26px;
+      --radius-lg: 18px;
+      --radius-md: 15px;
+
+      --shadow-card: 0 24px 70px rgba(0, 0, 0, 0.34);
+      --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.18);
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html,
     body {
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 0;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(56,189,248,0.20), transparent 30%),
-        radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 20%),
-        linear-gradient(135deg, #0f172a 0%, #111827 50%, #1e293b 100%);
+        radial-gradient(circle at 0% 0%, rgba(120, 201, 238, 0.10), transparent 26%),
+        radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.04), transparent 18%),
+        linear-gradient(145deg, var(--bg-1) 0%, var(--bg-2) 42%, var(--bg-3) 100%);
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a,
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
     }
 
     .container {
-      width: min(1100px, calc(100% - 32px));
+      width: min(1180px, calc(100% - 40px));
       margin: 0 auto;
     }
 
     .nav {
-      padding: 24px 0 8px;
+      padding: 14px 0 4px;
     }
 
     .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.06rem;
       font-weight: 800;
       letter-spacing: -0.03em;
-      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .logo-mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+      box-shadow: 0 0 0 6px rgba(120, 201, 238, 0.10);
+      flex-shrink: 0;
     }
 
     .hero {
       display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 28px;
-      align-items: center;
-      padding: 40px 0 72px;
+      grid-template-columns: minmax(0, 1.08fr) minmax(370px, 0.82fr);
+      gap: 64px;
+      align-items: start;
+      padding: 14px 0 40px;
     }
 
     .left {
-      max-width: 460px;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      padding: 8px 12px;
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 16px;
+      max-width: 640px;
+      padding-top: 10px;
     }
 
     h1 {
-      margin: 0 0 14px;
-      font-size: clamp(2.4rem, 5vw, 4.5rem);
-      line-height: 0.95;
-      letter-spacing: -0.05em;
+      margin: 0 0 16px;
+      font-size: clamp(2.35rem, 4.8vw, 4.35rem);
+      line-height: 0.93;
+      letter-spacing: -0.06em;
+      max-width: 8.6ch;
+      font-weight: 800;
     }
 
     .sub {
-      font-size: 1.06rem;
-      line-height: 1.6;
+      margin: 0 0 34px;
+      max-width: 48ch;
+      font-size: 1.08rem;
+      line-height: 1.72;
       color: var(--muted);
-      margin-bottom: 22px;
     }
 
-    .keypoints {
+    .value-list {
       display: grid;
-      gap: 10px;
-      margin-bottom: 26px;
+      gap: 22px;
+      margin-bottom: 34px;
     }
 
-    .keypoint {
-      padding: 12px 14px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      font-weight: 600;
-      color: #e2e8f0;
+    .value-item {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .value-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(
+        180deg,
+        rgba(120, 201, 238, 0.12),
+        rgba(120, 201, 238, 0.08)
+      );
+      border: 1px solid rgba(120, 201, 238, 0.16);
+      color: #e8f8ff;
+      font-size: 1rem;
+      font-weight: 800;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .value-text h3 {
+      margin: 0 0 6px;
+      font-size: 1.18rem;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .value-text p {
+      margin: 0;
+      max-width: 50ch;
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: var(--muted);
     }
 
     .anchor-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 14px 18px;
+      min-height: 54px;
+      padding: 0 22px;
       border-radius: 16px;
-      background: var(--accent);
-      color: #082f49;
+      background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+      color: #08202c;
       text-decoration: none;
       font-weight: 800;
-      transition: transform 0.15s ease, background 0.2s ease;
+      letter-spacing: -0.015em;
+      box-shadow: 0 10px 24px rgba(120, 201, 238, 0.16);
+      transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
     }
 
     .anchor-button:hover {
-      background: var(--accent-hover);
       transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(120, 201, 238, 0.18);
+      filter: brightness(1.02);
+    }
+
+    .form-wrap {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 6px;
     }
 
     .card {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 420px;
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.075),
+        rgba(255,255,255,0.058)
+      );
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-card);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
     }
 
     .form-card {
-      padding: 28px;
+      padding: 24px;
+    }
+
+    .form-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 14px;
+      font-size: 0.98rem;
+      font-weight: 750;
+      color: #def3ff;
+      letter-spacing: -0.015em;
+    }
+
+    .form-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(120, 201, 238, 0.10);
+      flex-shrink: 0;
     }
 
     .form-title {
       margin: 0 0 8px;
-      font-size: 1.35rem;
-      letter-spacing: -0.03em;
+      font-size: 1.44rem;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      font-weight: 800;
     }
 
     .form-subtitle {
       margin: 0 0 20px;
       color: var(--muted);
-      line-height: 1.5;
-      font-size: 0.98rem;
+      font-size: 0.96rem;
+      line-height: 1.58;
     }
 
     form {
@@ -157,42 +265,50 @@
 
     label {
       display: block;
-      font-size: 0.92rem;
-      font-weight: 600;
       margin-bottom: 8px;
-      color: #e2e8f0;
+      font-size: 0.9rem;
+      font-weight: 650;
+      color: #e5edf7;
+      letter-spacing: -0.01em;
     }
 
     input,
     select,
-    textarea {
+    textarea,
+    .multi-select-button {
       width: 100%;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: var(--input);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.075) !important;
       color: var(--text);
-      border-radius: 14px;
-      padding: 14px 14px;
-      font: inherit;
+      border-radius: var(--radius-md);
+      padding: 13px 14px;
       outline: none;
-      transition: border-color 0.2s ease, background 0.2s ease;
+      transition: border-color 0.2s ease, transform 0.15s ease;
+      appearance: none;
+      -webkit-appearance: none;
     }
 
     input::placeholder,
     textarea::placeholder {
-      color: #94a3b8;
+      color: var(--muted-soft);
     }
 
+    input:hover,
+    select:hover,
+    textarea:hover,
+    .multi-select-button:hover,
     input:focus,
     select:focus,
-    textarea:focus {
-      border-color: var(--accent);
-      background: rgba(255,255,255,0.14);
+    textarea:focus,
+    .multi-select-button.active {
+      border-color: rgba(120, 201, 238, 0.5);
+      background: rgba(255,255,255,0.075) !important;
     }
 
     select,
     option {
-      color: #f8fafc;
-      background-color: #1e293b;
+      background-color: #152235;
+      color: var(--text);
     }
 
     textarea {
@@ -200,121 +316,164 @@
       resize: vertical;
     }
 
-    .segmented {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+    .multi-select {
+      position: relative;
     }
 
-    .segmented input {
-      display: none;
-    }
-
-    .segmented label {
-      margin: 0;
-      text-align: center;
-      padding: 13px 10px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
+    .multi-select-button {
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      text-align: left;
       cursor: pointer;
-      font-weight: 600;
-      transition: all 0.2s ease;
     }
 
-    .segmented input:checked + label {
-      background: rgba(56,189,248,0.16);
-      border-color: rgba(56,189,248,0.65);
-      color: #e0f2fe;
+    .multi-select-button span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .multi-group {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+    .multi-select-button::after {
+      content: "▾";
+      flex-shrink: 0;
+      font-size: 0.88rem;
+      color: var(--muted);
     }
 
-    .multi-option input {
+    .multi-select-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
       display: none;
+      z-index: 20;
+      max-height: 260px;
+      overflow-y: auto;
+      padding: 8px;
+      border-radius: 18px;
+      background: rgba(16, 27, 43, 0.98);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
 
-    .multi-option label {
-      margin: 0;
-      padding: 13px 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
+    .multi-select.open .multi-select-dropdown {
+      display: block;
+    }
+
+    .multi-select-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: #e6eef8;
       cursor: pointer;
-      font-weight: 600;
-      line-height: 1.3;
-      transition: all 0.2s ease;
+      transition: background 0.15s ease;
     }
 
-    .multi-option input:checked + label {
-      background: rgba(56,189,248,0.16);
-      border-color: rgba(56,189,248,0.65);
-      color: #e0f2fe;
+    .multi-select-option:hover {
+      background: rgba(255,255,255,0.06);
+    }
+
+    .multi-select-option input {
+      width: auto;
+      margin: 0;
+      padding: 0;
+      accent-color: var(--accent);
+      background: transparent !important;
+      border: none;
+      appearance: auto;
+      -webkit-appearance: checkbox;
     }
 
     .helper-text {
       margin-top: 6px;
-      font-size: 0.83rem;
-      color: #94a3b8;
+      font-size: 0.79rem;
       line-height: 1.4;
+      color: var(--muted-soft);
     }
 
     .cta {
       display: inline-flex;
       justify-content: center;
       align-items: center;
+      min-height: 52px;
       border: none;
-      background: var(--accent);
-      color: #082f49;
+      border-radius: 16px;
+      background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+      color: #08202c;
       font-weight: 800;
       font-size: 1rem;
-      border-radius: 16px;
-      padding: 15px 18px;
+      letter-spacing: -0.015em;
       cursor: pointer;
-      transition: transform 0.15s ease, background 0.2s ease;
+      box-shadow: 0 10px 24px rgba(120, 201, 238, 0.16);
+      transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
     }
 
     .cta:hover {
-      background: var(--accent-hover);
       transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(120, 201, 238, 0.18);
+      filter: brightness(1.02);
     }
 
     .mini-note {
-      margin-top: 8px;
-      font-size: 0.86rem;
+      margin-top: 2px;
+      font-size: 0.84rem;
       line-height: 1.5;
-      color: #94a3b8;
+      color: var(--muted-soft);
     }
 
     .success-message {
       display: none;
-      margin-top: 14px;
+      margin-top: 8px;
       padding: 14px 16px;
-      border-radius: 14px;
-      background: rgba(34,197,94,0.14);
-      border: 1px solid rgba(34,197,94,0.35);
+      border-radius: 16px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.26);
       color: #dcfce7;
       line-height: 1.5;
+      font-size: 0.94rem;
     }
 
     footer {
-      padding: 0 0 32px;
-      color: #94a3b8;
-      font-size: 0.9rem;
+      padding: 0 0 26px;
+      color: var(--muted-soft);
+      font-size: 0.88rem;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 980px) {
       .hero {
         grid-template-columns: 1fr;
-        gap: 22px;
-        padding-top: 24px;
+        gap: 26px;
+        padding: 10px 0 30px;
       }
 
       .left {
+        max-width: 100%;
+        padding-top: 0;
+      }
+
+      h1 {
+        max-width: 100%;
+        font-size: clamp(2.15rem, 9vw, 3.8rem);
+      }
+
+      .sub,
+      .value-text p {
+        max-width: 100%;
+      }
+
+      .form-wrap {
+        justify-content: flex-start;
+        padding-top: 0;
+      }
+
+      .card {
         max-width: 100%;
       }
 
@@ -322,9 +481,23 @@
         grid-template-columns: 1fr;
       }
 
-      .segmented,
-      .multi-group {
-        grid-template-columns: 1fr;
+      .value-item {
+        grid-template-columns: 50px 1fr;
+        gap: 14px;
+      }
+
+      .value-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 16px;
+      }
+
+      .value-text h3 {
+        font-size: 1.08rem;
+      }
+
+      .value-text p {
+        font-size: 0.98rem;
       }
     }
   </style>
@@ -332,205 +505,186 @@
 <body>
   <div class="container">
     <nav class="nav">
-      <div class="logo">Seasonbase</div>
+      <div class="logo">
+        <span class="logo-mark"></span>
+        <span>Seasonbase</span>
+      </div>
     </nav>
 
     <section class="hero">
       <div class="left">
-        <div class="eyebrow">Launching soon</div>
         <h1>Jobb och boende för din säsong</h1>
+
         <p class="sub">
           Samlat per destination. Mindre kaos, snabbare väg till jobb och boende.
         </p>
 
-        <div class="keypoints">
-          <div class="keypoint">Jobb i fjällen och Alperna</div>
-          <div class="keypoint">Boende samlat på ett ställe</div>
-          <div class="keypoint">Tidigt access för waitlisten</div>
+        <div class="value-list">
+          <div class="value-item">
+            <div class="value-icon">01</div>
+            <div class="value-text">
+              <h3>Jobb samlat per destination</h3>
+              <p>Hitta säsongsjobb i Alperna och svenska fjällen utan att hoppa mellan grupper, kontaktannonser och gamla trådar.</p>
+            </div>
+          </div>
+
+          <div class="value-item">
+            <div class="value-icon">02</div>
+            <div class="value-text">
+              <h3>Boenden på ett ställe</h3>
+              <p>Se boenden samlat per ort så att du slipper jaga boende parallellt i flera olika kanaler.</p>
+            </div>
+          </div>
+
+          <div class="value-item">
+            <div class="value-icon">03</div>
+            <div class="value-text">
+              <h3>Tidig access först</h3>
+              <p>Gå med i waitlisten och få tillgång när vi öppnar för de första destinationerna och arbetsgivarna.</p>
+            </div>
+          </div>
         </div>
 
         <a href="#waitlist" class="anchor-button">Gå med i waitlisten</a>
       </div>
 
-      <div class="card form-card" id="waitlist">
-        <h2 class="form-title">Säkra din plats</h2>
-        <p class="form-subtitle">
-          Skriv upp dig för tidig access och hjälp oss prioritera rätt destinationer och jobbkategorier först.
-        </p>
-
-        <form id="waitlistForm">
-          <div class="row">
-            <div>
-              <label for="name">Namn</label>
-              <input id="name" name="name" type="text" placeholder="Ditt namn" required />
-            </div>
-            <div>
-              <label for="email">E-post</label>
-              <input id="email" name="email" type="email" placeholder="du@mail.com" required />
-            </div>
+      <div class="form-wrap">
+        <div class="card form-card" id="waitlist">
+          <div class="form-badge">
+            <span class="form-badge-dot"></span>
+            <span>Första destinationerna öppnar snart</span>
           </div>
 
-          <div class="row">
-            <div>
-              <label for="phone">Telefonnummer</label>
-              <input id="phone" name="phone" type="tel" placeholder="Valfritt" />
-            </div>
-            <div>
-              <label for="season">När planerar du säsongen?</label>
-              <select id="season" name="season" required>
-                <option value="">Välj period</option>
-                <option>Vintern 2026/2027</option>
-                <option>Sommaren 2026</option>
-                <option>Så snart som möjligt</option>
-                <option>Bara nyfiken</option>
-              </select>
-            </div>
-          </div>
+          <h2 class="form-title">Säkra din plats</h2>
+          <p class="form-subtitle">
+            Skriv upp dig för tidig access och hjälp oss prioritera rätt destinationer och jobbkategorier först.
+          </p>
 
-          <div>
-            <label>Destination</label>
-            <div class="multi-group">
-              <div class="multi-option">
-                <input type="checkbox" id="dest-alperna" name="destination" value="Alperna" />
-                <label for="dest-alperna">Alperna</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="dest-svenska-fjallen" name="destination" value="Svenska fjällen" />
-                <label for="dest-svenska-fjallen">Svenska fjällen</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="dest-are" name="destination" value="Åre" />
-                <label for="dest-are">Åre</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="dest-salen" name="destination" value="Sälen" />
-                <label for="dest-salen">Sälen</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="dest-vemdalen" name="destination" value="Vemdalen" />
-                <label for="dest-vemdalen">Vemdalen</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="dest-chamonix" name="destination" value="Chamonix" />
-                <label for="dest-chamonix">Chamonix</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="dest-verbier" name="destination" value="Verbier" />
-                <label for="dest-verbier">Verbier</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="dest-valthorens" name="destination" value="Val Thorens" />
-                <label for="dest-valthorens">Val Thorens</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="dest-stanton" name="destination" value="St Anton" />
-                <label for="dest-stanton">St Anton</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="dest-other" name="destination" value="Annan destination" />
-                <label for="dest-other">Annan destination</label>
-              </div>
-            </div>
-            <div class="helper-text">Du kan välja flera alternativ.</div>
-          </div>
-
-          <div>
-            <label>Vad söker du?</label>
-            <div class="segmented">
+          <form id="waitlistForm">
+            <div class="row">
               <div>
-                <input type="checkbox" id="jobb" name="interest" value="Jobb" />
-                <label for="jobb">Jobb</label>
+                <label for="name">Namn</label>
+                <input id="name" name="name" type="text" placeholder="Ditt namn" required />
               </div>
               <div>
-                <input type="checkbox" id="boende" name="interest" value="Boende" />
-                <label for="boende">Boende</label>
+                <label for="email">E-post</label>
+                <input id="email" name="email" type="email" placeholder="du@mail.com" required />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="phone">Telefonnummer</label>
+                <input id="phone" name="phone" type="tel" placeholder="Valfritt" />
               </div>
               <div>
-                <input type="checkbox" id="bada" name="interest" value="Båda" />
-                <label for="bada">Båda</label>
+                <label for="season">När planerar du säsongen?</label>
+                <select id="season" name="season" required>
+                  <option value="">Välj period</option>
+                  <option>Vintern 2026/2027</option>
+                  <option>Sommaren 2026</option>
+                  <option>Så snart som möjligt</option>
+                  <option>Bara nyfiken</option>
+                </select>
               </div>
             </div>
-            <div class="helper-text">Du kan välja flera alternativ.</div>
-          </div>
 
-          <div>
-            <label>Önskad typ av jobb</label>
-            <div class="multi-group">
-              <div class="multi-option">
-                <input type="checkbox" id="job-hotel" name="jobType" value="Hotell" />
-                <label for="job-hotel">Hotell</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="job-restaurang" name="jobType" value="Restaurang / bar" />
-                <label for="job-restaurang">Restaurang / bar</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="job-butik" name="jobType" value="Butik" />
-                <label for="job-butik">Butik</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="job-lift" name="jobType" value="Lift / skidområde" />
-                <label for="job-lift">Lift / skidområde</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="job-skidlarare" name="jobType" value="Skidlärare" />
-                <label for="job-skidlarare">Skidlärare</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="job-guide" name="jobType" value="Guide / aktivitet" />
-                <label for="job-guide">Guide / aktivitet</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="job-chauffor" name="jobType" value="Chaufför / transfer" />
-                <label for="job-chauffor">Chaufför / transfer</label>
-              </div>
-              <div class="multi-option">
-                <input type="checkbox" id="job-other" name="jobType" value="Annat" />
-                <label for="job-other">Annat</label>
-              </div>
-            </div>
-            <div class="helper-text">Bra för att matcha rätt arbetsgivare och partners.</div>
-          </div>
-
-          <div class="row">
             <div>
-              <label for="experience">Gjort säsong tidigare?</label>
-              <select id="experience" name="experience" required>
-                <option value="">Välj</option>
-                <option>Ja</option>
-                <option>Nej</option>
-              </select>
+              <label>Destination</label>
+              <div class="multi-select" data-name="destination">
+                <button type="button" class="multi-select-button">
+                  <span>Välj destinationer</span>
+                </button>
+                <div class="multi-select-dropdown">
+                  <label class="multi-select-option"><input type="checkbox" value="Alperna"> Alperna</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Svenska fjällen"> Svenska fjällen</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Åre"> Åre</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Sälen"> Sälen</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Vemdalen"> Vemdalen</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Chamonix"> Chamonix</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Verbier"> Verbier</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Val Thorens"> Val Thorens</label>
+                  <label class="multi-select-option"><input type="checkbox" value="St Anton"> St Anton</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Annan destination"> Annan destination</label>
+                </div>
+              </div>
+              <div class="helper-text">Du kan välja flera alternativ.</div>
             </div>
+
             <div>
-              <label for="housing-status">Har du redan boende ordnat?</label>
-              <select id="housing-status" name="housingStatus">
-                <option value="">Välj</option>
-                <option>Ja</option>
-                <option>Nej</option>
-                <option>Delvis / osäkert</option>
-              </select>
+              <label>Vad söker du?</label>
+              <div class="multi-select" data-name="interest">
+                <button type="button" class="multi-select-button">
+                  <span>Välj vad du söker</span>
+                </button>
+                <div class="multi-select-dropdown">
+                  <label class="multi-select-option"><input type="checkbox" value="Jobb"> Jobb</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Boende"> Boende</label>
+                </div>
+              </div>
+              <div class="helper-text">Du kan välja flera alternativ.</div>
             </div>
-          </div>
 
-          <div>
-            <label for="challenge">Största problemet just nu?</label>
-            <textarea
-              id="challenge"
-              name="challenge"
-              placeholder="T.ex. svårt att få svar på jobb, hitta boende eller veta vilka destinationer som passar"
-            ></textarea>
-          </div>
+            <div>
+              <label>Önskad typ av jobb</label>
+              <div class="multi-select" data-name="jobType">
+                <button type="button" class="multi-select-button">
+                  <span>Välj jobbkategorier</span>
+                </button>
+                <div class="multi-select-dropdown">
+                  <label class="multi-select-option"><input type="checkbox" value="Hotell"> Hotell</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Restaurang / bar"> Restaurang / bar</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Butik"> Butik</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Lift / skidområde"> Lift / skidområde</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Skidlärare"> Skidlärare</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Guide / aktivitet"> Guide / aktivitet</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Chaufför / transfer"> Chaufför / transfer</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Annat"> Annat</label>
+                </div>
+              </div>
+              <div class="helper-text">Bra för att matcha rätt arbetsgivare och partners.</div>
+            </div>
 
-          <button type="submit" class="cta">Säkra min plats</button>
+            <div class="row">
+              <div>
+                <label for="experience">Gjort säsong tidigare?</label>
+                <select id="experience" name="experience" required>
+                  <option value="">Välj</option>
+                  <option>Ja</option>
+                  <option>Nej</option>
+                </select>
+              </div>
+              <div>
+                <label for="housing-status">Har du redan boende ordnat?</label>
+                <select id="housing-status" name="housingStatus">
+                  <option value="">Välj</option>
+                  <option>Ja</option>
+                  <option>Nej</option>
+                  <option>Delvis / osäkert</option>
+                </select>
+              </div>
+            </div>
 
-          <div class="mini-note">
-            Ingen spam. Vi hör av oss när tidig access öppnar.
-          </div>
+            <div>
+              <label for="challenge">Största problemet just nu?</label>
+              <textarea
+                id="challenge"
+                name="challenge"
+                placeholder="T.ex. svårt att få svar på jobb, hitta boende eller veta vilka destinationer som passar"
+              ></textarea>
+            </div>
 
-          <div class="success-message" id="successMessage">
-            Tack — du är med på waitlisten.
-          </div>
-        </form>
+            <button type="submit" class="cta">Säkra min plats</button>
+
+            <div class="mini-note">
+              Ingen spam. Vi hör av oss när tidig access öppnar.
+            </div>
+
+            <div class="success-message" id="successMessage">
+              Tack — du är med på waitlisten.
+            </div>
+          </form>
+        </div>
       </div>
     </section>
 
@@ -543,29 +697,84 @@
     const form = document.getElementById("waitlistForm");
     const successMessage = document.getElementById("successMessage");
 
+    function getSelectedValues(multiSelect) {
+      return Array.from(
+        multiSelect.querySelectorAll('input[type="checkbox"]:checked')
+      ).map(input => input.value);
+    }
+
+    function updateMultiSelectLabel(multiSelect) {
+      const buttonText = multiSelect.querySelector(".multi-select-button span");
+      const values = getSelectedValues(multiSelect);
+
+      if (values.length === 0) {
+        const fieldName = multiSelect.dataset.name;
+        if (fieldName === "destination") buttonText.textContent = "Välj destinationer";
+        if (fieldName === "interest") buttonText.textContent = "Välj vad du söker";
+        if (fieldName === "jobType") buttonText.textContent = "Välj jobbkategorier";
+        return;
+      }
+
+      if (values.length <= 2) {
+        buttonText.textContent = values.join(", ");
+      } else {
+        buttonText.textContent = `${values[0]}, ${values[1]} +${values.length - 2}`;
+      }
+    }
+
+    const multiSelects = document.querySelectorAll(".multi-select");
+
+    multiSelects.forEach(multiSelect => {
+      const button = multiSelect.querySelector(".multi-select-button");
+      const checkboxes = multiSelect.querySelectorAll('input[type="checkbox"]');
+
+      button.addEventListener("click", () => {
+        const isOpen = multiSelect.classList.contains("open");
+
+        multiSelects.forEach(ms => {
+          ms.classList.remove("open");
+          ms.querySelector(".multi-select-button").classList.remove("active");
+        });
+
+        if (!isOpen) {
+          multiSelect.classList.add("open");
+          button.classList.add("active");
+        }
+      });
+
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", () => {
+          updateMultiSelectLabel(multiSelect);
+        });
+      });
+
+      updateMultiSelectLabel(multiSelect);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".multi-select")) {
+        multiSelects.forEach(ms => {
+          ms.classList.remove("open");
+          ms.querySelector(".multi-select-button").classList.remove("active");
+        });
+      }
+    });
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const selectedDestinations = Array.from(
-        form.querySelectorAll('input[name="destination"]:checked')
-      ).map(input => input.value);
-
-      const selectedInterests = Array.from(
-        form.querySelectorAll('input[name="interest"]:checked')
-      ).map(input => input.value);
-
-      const selectedJobTypes = Array.from(
-        form.querySelectorAll('input[name="jobType"]:checked')
-      ).map(input => input.value);
+      const destinations = getSelectedValues(document.querySelector('[data-name="destination"]'));
+      const interests = getSelectedValues(document.querySelector('[data-name="interest"]'));
+      const jobTypes = getSelectedValues(document.querySelector('[data-name="jobType"]'));
 
       const payload = {
         name: form.name.value,
         email: form.email.value,
         phone: form.phone.value,
         season: form.season.value,
-        destinations: selectedDestinations,
-        interests: selectedInterests,
-        jobTypes: selectedJobTypes,
+        destinations,
+        interests,
+        jobTypes,
         experience: form.experience.value,
         housingStatus: form.housingStatus.value,
         challenge: form.challenge.value
@@ -575,6 +784,8 @@
 
       successMessage.style.display = "block";
       form.reset();
+      multiSelects.forEach(updateMultiSelectLabel);
+
       successMessage.scrollIntoView({
         behavior: "smooth",
         block: "nearest"
