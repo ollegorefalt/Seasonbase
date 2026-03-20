@@ -20,7 +20,6 @@
 
       --accent: #78c9ee;
       --accent-strong: #93daf7;
-      --accent-deep: #0d3344;
 
       --success: #22c55e;
 
@@ -29,7 +28,6 @@
       --radius-md: 15px;
 
       --shadow-card: 0 24px 70px rgba(0, 0, 0, 0.34);
-      --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.18);
     }
 
     * {
@@ -125,7 +123,7 @@
     .value-list {
       display: grid;
       gap: 22px;
-      margin-bottom: 34px;
+      margin-bottom: 10px;
     }
 
     .value-item {
@@ -168,28 +166,6 @@
       font-size: 1.02rem;
       line-height: 1.7;
       color: var(--muted);
-    }
-
-    .anchor-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 54px;
-      padding: 0 22px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, var(--accent-strong), var(--accent));
-      color: #08202c;
-      text-decoration: none;
-      font-weight: 800;
-      letter-spacing: -0.015em;
-      box-shadow: 0 10px 24px rgba(120, 201, 238, 0.16);
-      transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
-    }
-
-    .anchor-button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 28px rgba(120, 201, 238, 0.18);
-      filter: brightness(1.02);
     }
 
     .form-wrap {
@@ -239,9 +215,9 @@
 
     .form-title {
       margin: 0 0 8px;
-      font-size: 1.44rem;
-      line-height: 1.15;
-      letter-spacing: -0.035em;
+      font-size: 1.52rem;
+      line-height: 1.12;
+      letter-spacing: -0.04em;
       font-weight: 800;
     }
 
@@ -283,7 +259,7 @@
       border-radius: var(--radius-md);
       padding: 13px 14px;
       outline: none;
-      transition: border-color 0.2s ease, transform 0.15s ease;
+      transition: border-color 0.2s ease;
       appearance: none;
       -webkit-appearance: none;
     }
@@ -544,8 +520,6 @@
             </div>
           </div>
         </div>
-
-        <a href="#waitlist" class="anchor-button">Gå med i waitlisten</a>
       </div>
 
       <div class="form-wrap">
@@ -555,7 +529,7 @@
             <span>Första destinationerna öppnar snart</span>
           </div>
 
-          <h2 class="form-title">Säkra din plats</h2>
+          <h2 class="form-title">Gå med i waitlisten</h2>
           <p class="form-subtitle">
             Skriv upp dig för tidig access och hjälp oss prioritera rätt destinationer och jobbkategorier först.
           </p>
