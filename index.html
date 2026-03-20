@@ -1057,61 +1057,85 @@
       if (form.otherJobType.value.trim()) clearError(form.otherJobType, "otherJobTypeError");
     });
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
 
-      toggleConditionalFields();
+  toggleConditionalFields();
 
-      if (!validateForm()) {
-        formErrorSummary.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest"
-        });
-        return;
-      }
-
-      const destinations = getSelectedValues(document.querySelector('[data-name="destination"]'));
-      const interests = getSelectedValues(document.querySelector('[data-name="interest"]'));
-      const jobTypes = getSelectedValues(document.querySelector('[data-name="jobType"]'));
-
-      const payload = {
-        name: form.name.value.trim(),
-        email: form.email.value.trim(),
-        phone: form.phone.value.trim(),
-        season: form.season.value,
-        destinations,
-        otherDestination: form.otherDestination.value.trim(),
-        interests,
-        otherInterest: form.otherInterest.value.trim(),
-        jobTypes,
-        otherJobType: form.otherJobType.value.trim(),
-        experience: form.experience.value,
-        housingStatus: form.housingStatus.value,
-        challenge: form.challenge.value.trim()
-      };
-
-      console.log("Waitlist data:", payload);
-
-      successMessage.style.display = "block";
-      formErrorSummary.classList.remove("show");
-      form.reset();
-
-      multiSelects.forEach(ms => {
-        ms.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-        updateMultiSelectLabel(ms);
-        ms.querySelector(".multi-select-button").classList.remove("error");
-      });
-
-      toggleConditionalFields();
-
-      document.querySelectorAll(".error").forEach(el => el.classList.remove("error"));
-      document.querySelectorAll(".error-text").forEach(el => el.classList.remove("show"));
-
-      successMessage.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-      });
+  if (!validateForm()) {
+    formErrorSummary.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
     });
+    return;
+  }
+
+  const destinations = getSelectedValues(document.querySelector('[data-name="destination"]'));
+  const interests = getSelectedValues(document.querySelector('[data-name="interest"]'));
+  const jobTypes = getSelectedValues(document.querySelector('[data-name="jobType"]'));
+
+  const payload = {
+    name: form.name.value.trim(),
+    email: form.email.value.trim(),
+    phone: form.phone.value.trim(),
+    season: form.season.value,
+    destinations,
+    otherDestination: form.otherDestination.value.trim(),
+    interests,
+    otherInterest: form.otherInterest.value.trim(),
+    jobTypes,
+    otherJobType: form.otherJobType.value.trim(),
+    experience: form.experience.value,
+    housingStatus: form.housingStatus.value,
+    challenge: form.challenge.value.trim(),
+    formVersion: "v1"
+  };
+
+  try {
+    const response = await fetch("http://localhost:3000/api/waitlist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || "Kunde inte skicka formuläret.");
+    }
+
+    successMessage.style.display = "block";
+    formErrorSummary.classList.remove("show");
+    form.reset();
+
+    multiSelects.forEach(ms => {
+      ms.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      updateMultiSelectLabel(ms);
+      ms.querySelector(".multi-select-button").classList.remove("error");
+    });
+
+    toggleConditionalFields();
+
+    document.querySelectorAll(".error").forEach(el => el.classList.remove("error"));
+    document.querySelectorAll(".error-text").forEach(el => el.classList.remove("show"));
+
+    successMessage.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
+    });
+  } catch (error) {
+    console.error(error);
+    formErrorSummary.textContent = error.message || "Kunde inte skicka formuläret.";
+    formErrorSummary.classList.add("show");
+
+    formErrorSummary.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
+    });
+  }
+});
 
     toggleConditionalFields();
   </script>
