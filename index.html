@@ -20,6 +20,7 @@
       --accent-strong: #93daf7;
 
       --success: #22c55e;
+      --error: #f87171;
 
       --radius-xl: 26px;
       --radius-lg: 18px;
@@ -307,6 +308,14 @@
       background: rgba(255,255,255,0.075) !important;
     }
 
+    input.error,
+    select.error,
+    textarea.error,
+    .multi-select-button.error {
+      border-color: rgba(248, 113, 113, 0.9) !important;
+      box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.2);
+    }
+
     select,
     option {
       background-color: #152235;
@@ -352,7 +361,7 @@
       right: 0;
       display: none;
       z-index: 20;
-      max-height: 260px;
+      max-height: 320px;
       overflow-y: auto;
       padding: 8px;
       border-radius: 18px;
@@ -365,6 +374,20 @@
 
     .multi-select.open .multi-select-dropdown {
       display: block;
+    }
+
+    .multi-select-group {
+      padding: 6px 6px 2px;
+    }
+
+    .multi-select-group-title {
+      margin: 8px 6px 6px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+      opacity: 0.95;
     }
 
     .multi-select-option {
@@ -398,6 +421,26 @@
       font-size: 0.79rem;
       line-height: 1.4;
       color: var(--muted-soft);
+    }
+
+    .error-text {
+      display: none;
+      margin-top: 6px;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: #fecaca;
+    }
+
+    .error-text.show {
+      display: block;
+    }
+
+    .hidden-field {
+      display: none;
+    }
+
+    .hidden-field.show {
+      display: block;
     }
 
     .cta {
@@ -440,6 +483,22 @@
       color: #dcfce7;
       line-height: 1.5;
       font-size: 0.94rem;
+    }
+
+    .form-error-summary {
+      display: none;
+      margin-bottom: 4px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(248,113,113,0.12);
+      border: 1px solid rgba(248,113,113,0.28);
+      color: #fee2e2;
+      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+
+    .form-error-summary.show {
+      display: block;
     }
 
     footer {
@@ -571,15 +630,21 @@
             Skriv upp dig för tidig access och hjälp oss prioritera rätt destinationer och jobbkategorier först.
           </p>
 
-          <form id="waitlistForm">
+          <div class="form-error-summary" id="formErrorSummary">
+            Fyll i de obligatoriska fälten innan du skickar in formuläret.
+          </div>
+
+          <form id="waitlistForm" novalidate>
             <div class="row">
               <div>
-                <label for="name">Namn</label>
-                <input id="name" name="name" type="text" placeholder="Ditt namn" required />
+                <label for="name">För- och efternamn <span style="color:#fecaca">*</span></label>
+                <input id="name" name="name" type="text" placeholder="Ditt för- och efternamn" required />
+                <div class="error-text" id="nameError">Fyll i ditt för- och efternamn.</div>
               </div>
               <div>
-                <label for="email">E-post</label>
+                <label for="email">E-post <span style="color:#fecaca">*</span></label>
                 <input id="email" name="email" type="email" placeholder="du@mail.com" required />
+                <div class="error-text" id="emailError">Fyll i en giltig e-postadress.</div>
               </div>
             </div>
 
@@ -590,7 +655,7 @@
               </div>
               <div>
                 <label for="season">När planerar du säsongen?</label>
-                <select id="season" name="season" required>
+                <select id="season" name="season">
                   <option value="">Välj period</option>
                   <option>Vintern 2026/2027</option>
                   <option>Sommaren 2026</option>
@@ -601,39 +666,91 @@
             </div>
 
             <div>
-              <label>Destination</label>
-              <div class="multi-select" data-name="destination">
+              <label>Destination <span style="color:#fecaca">*</span></label>
+              <div class="multi-select" data-name="destination" data-required="true">
                 <button type="button" class="multi-select-button">
                   <span>Välj destinationer</span>
                 </button>
                 <div class="multi-select-dropdown">
-                  <label class="multi-select-option"><input type="checkbox" value="Alperna"> Alperna</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Svenska fjällen"> Svenska fjällen</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Åre"> Åre</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Sälen"> Sälen</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Vemdalen"> Vemdalen</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Chamonix"> Chamonix</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Verbier"> Verbier</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Val Thorens"> Val Thorens</label>
-                  <label class="multi-select-option"><input type="checkbox" value="St Anton"> St Anton</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Annan destination"> Annan destination</label>
+                  <div class="multi-select-group">
+                    <label class="multi-select-option">
+                      <input type="checkbox" value="Sverige"> Sverige
+                    </label>
+                    <label class="multi-select-option"><input type="checkbox" value="Åre"> Åre</label>
+                    <label class="multi-select-option"><input type="checkbox" value="Sälen"> Sälen</label>
+                    <label class="multi-select-option"><input type="checkbox" value="Vemdalen"> Vemdalen</label>
+                  </div>
+
+                  <div class="multi-select-group">
+                    <label class="multi-select-option">
+                      <input type="checkbox" value="Norge"> Norge
+                    </label>
+                    <label class="multi-select-option"><input type="checkbox" value="Trysil"> Trysil</label>
+                    <label class="multi-select-option"><input type="checkbox" value="Hemsedal"> Hemsedal</label>
+                    <label class="multi-select-option"><input type="checkbox" value="Geilo"> Geilo</label>
+                  </div>
+
+                  <div class="multi-select-group">
+                    <label class="multi-select-option">
+                      <input type="checkbox" value="Alperna"> Alperna
+                    </label>
+                    <div class="multi-select-group-title" style="font-size:0.72rem; margin-top:10px;">Frankrike</div>
+                    <label class="multi-select-option"><input type="checkbox" value="Chamonix"> Chamonix</label>
+                    <label class="multi-select-option"><input type="checkbox" value="Val Thorens"> Val Thorens</label>
+
+                    <div class="multi-select-group-title" style="font-size:0.72rem; margin-top:10px;">Schweiz</div>
+                    <label class="multi-select-option"><input type="checkbox" value="Verbier"> Verbier</label>
+
+                    <div class="multi-select-group-title" style="font-size:0.72rem; margin-top:10px;">Österrike</div>
+                    <label class="multi-select-option"><input type="checkbox" value="St Anton"> St Anton</label>
+                  </div>
+
+                  <div class="multi-select-group">
+                    <div class="multi-select-group-title">Annat</div>
+                    <label class="multi-select-option"><input type="checkbox" value="Annan destination"> Annan destination</label>
+                  </div>
                 </div>
               </div>
               <div class="helper-text">Du kan välja flera alternativ.</div>
+              <div class="error-text" id="destinationError">Välj minst en destination.</div>
+            </div>
+
+            <div class="hidden-field" id="otherDestinationWrap">
+              <label for="otherDestination">Vilken annan destination?</label>
+              <input
+                id="otherDestination"
+                name="otherDestination"
+                type="text"
+                placeholder="Skriv destination"
+              />
+              <div class="error-text" id="otherDestinationError">Skriv vilken annan destination du söker.</div>
             </div>
 
             <div>
-              <label>Vad söker du?</label>
-              <div class="multi-select" data-name="interest">
+              <label>Vad söker du? <span style="color:#fecaca">*</span></label>
+              <div class="multi-select" data-name="interest" data-required="true">
                 <button type="button" class="multi-select-button">
                   <span>Välj vad du söker</span>
                 </button>
                 <div class="multi-select-dropdown">
                   <label class="multi-select-option"><input type="checkbox" value="Jobb"> Jobb</label>
                   <label class="multi-select-option"><input type="checkbox" value="Boende"> Boende</label>
+                  <label class="multi-select-option"><input type="checkbox" value="Annat"> Annat</label>
                 </div>
               </div>
               <div class="helper-text">Du kan välja flera alternativ.</div>
+              <div class="error-text" id="interestError">Välj minst ett alternativ.</div>
+            </div>
+
+            <div class="hidden-field" id="otherInterestWrap">
+              <label for="otherInterest">Vad söker du mer specifikt?</label>
+              <input
+                id="otherInterest"
+                name="otherInterest"
+                type="text"
+                placeholder="Skriv vad du söker"
+              />
+              <div class="error-text" id="otherInterestError">Skriv vad du söker när du väljer annat.</div>
             </div>
 
             <div>
@@ -656,10 +773,21 @@
               <div class="helper-text">Bra för att matcha rätt arbetsgivare och partners.</div>
             </div>
 
+            <div class="hidden-field" id="otherJobTypeWrap">
+              <label for="otherJobType">Vilken typ av jobb söker du?</label>
+              <input
+                id="otherJobType"
+                name="otherJobType"
+                type="text"
+                placeholder="Skriv önskad typ av jobb"
+              />
+              <div class="error-text" id="otherJobTypeError">Skriv vilken typ av jobb du söker när du väljer annat.</div>
+            </div>
+
             <div class="row">
               <div>
                 <label for="experience">Gjort säsong tidigare?</label>
-                <select id="experience" name="experience" required>
+                <select id="experience" name="experience">
                   <option value="">Välj</option>
                   <option>Ja</option>
                   <option>Nej</option>
@@ -688,7 +816,7 @@
             <button type="submit" class="cta">Säkra min plats</button>
 
             <div class="mini-note">
-              Ingen spam. Vi hör av oss när tidig access öppnar.
+              Fält markerade med * är obligatoriska. Ingen spam. Vi hör av oss när tidig access öppnar.
             </div>
 
             <div class="success-message" id="successMessage">
@@ -707,6 +835,7 @@
   <script>
     const form = document.getElementById("waitlistForm");
     const successMessage = document.getElementById("successMessage");
+    const formErrorSummary = document.getElementById("formErrorSummary");
 
     function getSelectedValues(multiSelect) {
       return Array.from(
@@ -733,6 +862,128 @@
       }
     }
 
+    function showError(element, errorId) {
+      if (element) element.classList.add("error");
+      const error = document.getElementById(errorId);
+      if (error) error.classList.add("show");
+    }
+
+    function clearError(element, errorId) {
+      if (element) element.classList.remove("error");
+      const error = document.getElementById(errorId);
+      if (error) error.classList.remove("show");
+    }
+
+    function toggleConditionalFields() {
+      const destinationValues = getSelectedValues(document.querySelector('[data-name="destination"]'));
+      const interestValues = getSelectedValues(document.querySelector('[data-name="interest"]'));
+      const jobTypeValues = getSelectedValues(document.querySelector('[data-name="jobType"]'));
+
+      const otherDestinationWrap = document.getElementById("otherDestinationWrap");
+      const otherInterestWrap = document.getElementById("otherInterestWrap");
+      const otherJobTypeWrap = document.getElementById("otherJobTypeWrap");
+
+      const otherDestination = document.getElementById("otherDestination");
+      const otherInterest = document.getElementById("otherInterest");
+      const otherJobType = document.getElementById("otherJobType");
+
+      const hasOtherDestination = destinationValues.includes("Annan destination");
+      const hasOtherInterest = interestValues.includes("Annat");
+      const hasOtherJobType = jobTypeValues.includes("Annat");
+
+      otherDestinationWrap.classList.toggle("show", hasOtherDestination);
+      otherInterestWrap.classList.toggle("show", hasOtherInterest);
+      otherJobTypeWrap.classList.toggle("show", hasOtherJobType);
+
+      otherDestination.required = hasOtherDestination;
+      otherInterest.required = hasOtherInterest;
+      otherJobType.required = hasOtherJobType;
+
+      if (!hasOtherDestination) {
+        otherDestination.value = "";
+        clearError(otherDestination, "otherDestinationError");
+      }
+
+      if (!hasOtherInterest) {
+        otherInterest.value = "";
+        clearError(otherInterest, "otherInterestError");
+      }
+
+      if (!hasOtherJobType) {
+        otherJobType.value = "";
+        clearError(otherJobType, "otherJobTypeError");
+      }
+    }
+
+    function validateEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+    }
+
+    function validateForm() {
+      let isValid = true;
+
+      formErrorSummary.classList.remove("show");
+
+      clearError(form.name, "nameError");
+      clearError(form.email, "emailError");
+
+      clearError(document.querySelector('[data-name="destination"] .multi-select-button'), "destinationError");
+      clearError(document.querySelector('[data-name="interest"] .multi-select-button'), "interestError");
+
+      clearError(document.getElementById("otherDestination"), "otherDestinationError");
+      clearError(document.getElementById("otherInterest"), "otherInterestError");
+      clearError(document.getElementById("otherJobType"), "otherJobTypeError");
+
+      if (!form.name.value.trim()) {
+        showError(form.name, "nameError");
+        isValid = false;
+      }
+
+      if (!validateEmail(form.email.value)) {
+        showError(form.email, "emailError");
+        isValid = false;
+      }
+
+      const destinationSelect = document.querySelector('[data-name="destination"]');
+      const interestSelect = document.querySelector('[data-name="interest"]');
+      const jobTypeSelect = document.querySelector('[data-name="jobType"]');
+
+      const destinations = getSelectedValues(destinationSelect);
+      const interests = getSelectedValues(interestSelect);
+      const jobTypes = getSelectedValues(jobTypeSelect);
+
+      if (destinations.length === 0) {
+        showError(destinationSelect.querySelector(".multi-select-button"), "destinationError");
+        isValid = false;
+      }
+
+      if (interests.length === 0) {
+        showError(interestSelect.querySelector(".multi-select-button"), "interestError");
+        isValid = false;
+      }
+
+      if (destinations.includes("Annan destination") && !form.otherDestination.value.trim()) {
+        showError(form.otherDestination, "otherDestinationError");
+        isValid = false;
+      }
+
+      if (interests.includes("Annat") && !form.otherInterest.value.trim()) {
+        showError(form.otherInterest, "otherInterestError");
+        isValid = false;
+      }
+
+      if (jobTypes.includes("Annat") && !form.otherJobType.value.trim()) {
+        showError(form.otherJobType, "otherJobTypeError");
+        isValid = false;
+      }
+
+      if (!isValid) {
+        formErrorSummary.classList.add("show");
+      }
+
+      return isValid;
+    }
+
     const multiSelects = document.querySelectorAll(".multi-select");
 
     multiSelects.forEach(multiSelect => {
@@ -756,6 +1007,21 @@
       checkboxes.forEach(checkbox => {
         checkbox.addEventListener("change", () => {
           updateMultiSelectLabel(multiSelect);
+          toggleConditionalFields();
+
+          if (multiSelect.dataset.name === "destination") {
+            const button = multiSelect.querySelector(".multi-select-button");
+            if (getSelectedValues(multiSelect).length > 0) {
+              clearError(button, "destinationError");
+            }
+          }
+
+          if (multiSelect.dataset.name === "interest") {
+            const button = multiSelect.querySelector(".multi-select-button");
+            if (getSelectedValues(multiSelect).length > 0) {
+              clearError(button, "interestError");
+            }
+          }
         });
       });
 
@@ -771,37 +1037,83 @@
       }
     });
 
+    form.name.addEventListener("input", () => {
+      if (form.name.value.trim()) clearError(form.name, "nameError");
+    });
+
+    form.email.addEventListener("input", () => {
+      if (validateEmail(form.email.value)) clearError(form.email, "emailError");
+    });
+
+    document.getElementById("otherDestination").addEventListener("input", () => {
+      if (form.otherDestination.value.trim()) clearError(form.otherDestination, "otherDestinationError");
+    });
+
+    document.getElementById("otherInterest").addEventListener("input", () => {
+      if (form.otherInterest.value.trim()) clearError(form.otherInterest, "otherInterestError");
+    });
+
+    document.getElementById("otherJobType").addEventListener("input", () => {
+      if (form.otherJobType.value.trim()) clearError(form.otherJobType, "otherJobTypeError");
+    });
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+
+      toggleConditionalFields();
+
+      if (!validateForm()) {
+        formErrorSummary.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest"
+        });
+        return;
+      }
 
       const destinations = getSelectedValues(document.querySelector('[data-name="destination"]'));
       const interests = getSelectedValues(document.querySelector('[data-name="interest"]'));
       const jobTypes = getSelectedValues(document.querySelector('[data-name="jobType"]'));
 
       const payload = {
-        name: form.name.value,
-        email: form.email.value,
-        phone: form.phone.value,
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        phone: form.phone.value.trim(),
         season: form.season.value,
         destinations,
+        otherDestination: form.otherDestination.value.trim(),
         interests,
+        otherInterest: form.otherInterest.value.trim(),
         jobTypes,
+        otherJobType: form.otherJobType.value.trim(),
         experience: form.experience.value,
         housingStatus: form.housingStatus.value,
-        challenge: form.challenge.value
+        challenge: form.challenge.value.trim()
       };
 
       console.log("Waitlist data:", payload);
 
       successMessage.style.display = "block";
+      formErrorSummary.classList.remove("show");
       form.reset();
-      multiSelects.forEach(updateMultiSelectLabel);
+
+      multiSelects.forEach(ms => {
+        ms.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        updateMultiSelectLabel(ms);
+        ms.querySelector(".multi-select-button").classList.remove("error");
+      });
+
+      toggleConditionalFields();
+
+      document.querySelectorAll(".error").forEach(el => el.classList.remove("error"));
+      document.querySelectorAll(".error-text").forEach(el => el.classList.remove("show"));
 
       successMessage.scrollIntoView({
         behavior: "smooth",
         block: "nearest"
       });
     });
+
+    toggleConditionalFields();
   </script>
 </body>
 </html>
