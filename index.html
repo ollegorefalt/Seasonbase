@@ -189,7 +189,6 @@
       background: rgba(255,255,255,0.14);
     }
 
-    /* Fix för dropdown-alternativ */
     select,
     option {
       color: #f8fafc;
@@ -227,6 +226,41 @@
       background: rgba(56,189,248,0.16);
       border-color: rgba(56,189,248,0.65);
       color: #e0f2fe;
+    }
+
+    .multi-group {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .multi-option input {
+      display: none;
+    }
+
+    .multi-option label {
+      margin: 0;
+      padding: 13px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      cursor: pointer;
+      font-weight: 600;
+      line-height: 1.3;
+      transition: all 0.2s ease;
+    }
+
+    .multi-option input:checked + label {
+      background: rgba(56,189,248,0.16);
+      border-color: rgba(56,189,248,0.65);
+      color: #e0f2fe;
+    }
+
+    .helper-text {
+      margin-top: 6px;
+      font-size: 0.83rem;
+      color: #94a3b8;
+      line-height: 1.4;
     }
 
     .cta {
@@ -288,7 +322,8 @@
         grid-template-columns: 1fr;
       }
 
-      .segmented {
+      .segmented,
+      .multi-group {
         grid-template-columns: 1fr;
       }
     }
@@ -320,7 +355,7 @@
       <div class="card form-card" id="waitlist">
         <h2 class="form-title">Säkra din plats</h2>
         <p class="form-subtitle">
-          Skriv upp dig för tidig access och hjälp oss prioritera rätt destinationer först.
+          Skriv upp dig för tidig access och hjälp oss prioritera rätt destinationer och jobbkategorier först.
         </p>
 
         <form id="waitlistForm">
@@ -341,41 +376,6 @@
               <input id="phone" name="phone" type="tel" placeholder="Valfritt" />
             </div>
             <div>
-              <label for="destination">Destination</label>
-              <select id="destination" name="destination" required>
-                <option value="">Välj destination</option>
-                <option>Åre</option>
-                <option>Sälen</option>
-                <option>Vemdalen</option>
-                <option>Chamonix</option>
-                <option>Verbier</option>
-                <option>Val Thorens</option>
-                <option>St Anton</option>
-                <option>Annan destination</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label>Vad söker du?</label>
-            <div class="segmented">
-              <div>
-                <input type="radio" id="jobb" name="interest" value="jobb" required />
-                <label for="jobb">Jobb</label>
-              </div>
-              <div>
-                <input type="radio" id="boende" name="interest" value="boende" />
-                <label for="boende">Boende</label>
-              </div>
-              <div>
-                <input type="radio" id="bada" name="interest" value="båda" />
-                <label for="bada">Båda</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div>
               <label for="season">När planerar du säsongen?</label>
               <select id="season" name="season" required>
                 <option value="">Välj period</option>
@@ -385,12 +385,129 @@
                 <option>Bara nyfiken</option>
               </select>
             </div>
+          </div>
+
+          <div>
+            <label>Destination</label>
+            <div class="multi-group">
+              <div class="multi-option">
+                <input type="checkbox" id="dest-alperna" name="destination" value="Alperna" />
+                <label for="dest-alperna">Alperna</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="dest-svenska-fjallen" name="destination" value="Svenska fjällen" />
+                <label for="dest-svenska-fjallen">Svenska fjällen</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="dest-are" name="destination" value="Åre" />
+                <label for="dest-are">Åre</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="dest-salen" name="destination" value="Sälen" />
+                <label for="dest-salen">Sälen</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="dest-vemdalen" name="destination" value="Vemdalen" />
+                <label for="dest-vemdalen">Vemdalen</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="dest-chamonix" name="destination" value="Chamonix" />
+                <label for="dest-chamonix">Chamonix</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="dest-verbier" name="destination" value="Verbier" />
+                <label for="dest-verbier">Verbier</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="dest-valthorens" name="destination" value="Val Thorens" />
+                <label for="dest-valthorens">Val Thorens</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="dest-stanton" name="destination" value="St Anton" />
+                <label for="dest-stanton">St Anton</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="dest-other" name="destination" value="Annan destination" />
+                <label for="dest-other">Annan destination</label>
+              </div>
+            </div>
+            <div class="helper-text">Du kan välja flera alternativ.</div>
+          </div>
+
+          <div>
+            <label>Vad söker du?</label>
+            <div class="segmented">
+              <div>
+                <input type="checkbox" id="jobb" name="interest" value="Jobb" />
+                <label for="jobb">Jobb</label>
+              </div>
+              <div>
+                <input type="checkbox" id="boende" name="interest" value="Boende" />
+                <label for="boende">Boende</label>
+              </div>
+              <div>
+                <input type="checkbox" id="bada" name="interest" value="Båda" />
+                <label for="bada">Båda</label>
+              </div>
+            </div>
+            <div class="helper-text">Du kan välja flera alternativ.</div>
+          </div>
+
+          <div>
+            <label>Önskad typ av jobb</label>
+            <div class="multi-group">
+              <div class="multi-option">
+                <input type="checkbox" id="job-hotel" name="jobType" value="Hotell" />
+                <label for="job-hotel">Hotell</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="job-restaurang" name="jobType" value="Restaurang / bar" />
+                <label for="job-restaurang">Restaurang / bar</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="job-butik" name="jobType" value="Butik" />
+                <label for="job-butik">Butik</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="job-lift" name="jobType" value="Lift / skidområde" />
+                <label for="job-lift">Lift / skidområde</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="job-skidlarare" name="jobType" value="Skidlärare" />
+                <label for="job-skidlarare">Skidlärare</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="job-guide" name="jobType" value="Guide / aktivitet" />
+                <label for="job-guide">Guide / aktivitet</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="job-chauffor" name="jobType" value="Chaufför / transfer" />
+                <label for="job-chauffor">Chaufför / transfer</label>
+              </div>
+              <div class="multi-option">
+                <input type="checkbox" id="job-other" name="jobType" value="Annat" />
+                <label for="job-other">Annat</label>
+              </div>
+            </div>
+            <div class="helper-text">Bra för att matcha rätt arbetsgivare och partners.</div>
+          </div>
+
+          <div class="row">
             <div>
               <label for="experience">Gjort säsong tidigare?</label>
               <select id="experience" name="experience" required>
                 <option value="">Välj</option>
                 <option>Ja</option>
                 <option>Nej</option>
+              </select>
+            </div>
+            <div>
+              <label for="housing-status">Har du redan boende ordnat?</label>
+              <select id="housing-status" name="housingStatus">
+                <option value="">Välj</option>
+                <option>Ja</option>
+                <option>Nej</option>
+                <option>Delvis / osäkert</option>
               </select>
             </div>
           </div>
@@ -400,7 +517,7 @@
             <textarea
               id="challenge"
               name="challenge"
-              placeholder="T.ex. svårt att få svar på jobb eller hitta boende"
+              placeholder="T.ex. svårt att få svar på jobb, hitta boende eller veta vilka destinationer som passar"
             ></textarea>
           </div>
 
@@ -428,6 +545,34 @@
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+
+      const selectedDestinations = Array.from(
+        form.querySelectorAll('input[name="destination"]:checked')
+      ).map(input => input.value);
+
+      const selectedInterests = Array.from(
+        form.querySelectorAll('input[name="interest"]:checked')
+      ).map(input => input.value);
+
+      const selectedJobTypes = Array.from(
+        form.querySelectorAll('input[name="jobType"]:checked')
+      ).map(input => input.value);
+
+      const payload = {
+        name: form.name.value,
+        email: form.email.value,
+        phone: form.phone.value,
+        season: form.season.value,
+        destinations: selectedDestinations,
+        interests: selectedInterests,
+        jobTypes: selectedJobTypes,
+        experience: form.experience.value,
+        housingStatus: form.housingStatus.value,
+        challenge: form.challenge.value
+      };
+
+      console.log("Waitlist data:", payload);
+
       successMessage.style.display = "block";
       form.reset();
       successMessage.scrollIntoView({
