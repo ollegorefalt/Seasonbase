@@ -43,6 +43,67 @@ function writeEntries(entries) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(entries, null, 2), "utf-8");
 }
 
+function csvEscape(value) {
+  if (value === null || value === undefined) return '""';
+  const str = String(value).replace(/"/g, '""');
+  return `"${str}"`;
+}
+
+function flattenEntry(entry) {
+  return {
+    id: entry.id || "",
+    createdAt: entry.createdAt || "",
+    name: entry.name || "",
+    email: entry.email || "",
+    phone: entry.phone || "",
+    season: entry.season || "",
+    destinations: (entry.answers?.destinations || []).join("; "),
+    otherDestination: entry.answers?.otherDestination || "",
+    interests: (entry.answers?.interests || []).join("; "),
+    otherInterest: entry.answers?.otherInterest || "",
+    jobTypes: (entry.answers?.jobTypes || []).join("; "),
+    otherJobType: entry.answers?.otherJobType || "",
+    experience: entry.answers?.experience || "",
+    housingStatus: entry.answers?.housingStatus || "",
+    challenge: entry.answers?.challenge || "",
+    formVersion: entry.formVersion || ""
+  };
+}
+
+function writeCsv(entries) {
+  const csvFile = path.join(DATA_DIR, "waitlist.csv");
+
+  const headers = [
+    "id",
+    "createdAt",
+    "name",
+    "email",
+    "phone",
+    "season",
+    "destinations",
+    "otherDestination",
+    "interests",
+    "otherInterest",
+    "jobTypes",
+    "otherJobType",
+    "experience",
+    "housingStatus",
+    "challenge",
+    "formVersion"
+  ];
+
+  const rows = entries.map(flattenEntry);
+
+  const csvLines = [
+    headers.join(","),
+    ...rows.map(row =>
+      headers.map(header => csvEscape(row[header])).join(",")
+    )
+  ];
+
+  fs.writeFileSync(csvFile, csvLines.join("\n"), "utf-8");
+}
+
 app.get("/api/health", (req, res) => {
   res.json({ ok: true });
 });
@@ -107,6 +168,7 @@ app.post("/api/waitlist", (req, res) => {
 
     entries.push(newEntry);
     writeEntries(entries);
+    writeCsv(entries);
 
     return res.status(201).json({
       ok: true,
