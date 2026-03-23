@@ -95,7 +95,43 @@
       gap: 64px;
       align-items: start;
       padding: 14px 0 40px;
+      position: relative;
+      overflow: hidden;
     }
+
+    .hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(370px, 0.82fr);
+  gap: 64px;
+  align-items: start;
+  padding: 14px 0 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px 0;
+  height: 180px;
+  pointer-events: none;
+  opacity: 0.18;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 220' preserveAspectRatio='none'>\
+  <path fill='rgba(255,255,255,0.10)' d='M0 210 L120 150 L210 180 L330 95 L430 150 L540 70 L660 155 L770 110 L910 190 L1030 85 L1170 165 L1280 120 L1440 205 L1440 220 L0 220 Z'/>\
+  <path fill='rgba(120,201,238,0.10)' d='M0 220 L0 200 L130 165 L250 205 L380 130 L500 175 L620 95 L760 180 L890 125 L1020 200 L1160 145 L1290 185 L1440 135 L1440 220 Z'/>\
+</svg>");
+  z-index: 0;
+}
+
+.left,
+.form-wrap {
+  position: relative;
+  z-index: 1;
+}
 
     .left {
       max-width: 640px;
@@ -442,7 +478,7 @@
     .hidden-field.show {
       display: block;
     }
-
+    
     .cta {
       display: inline-flex;
       justify-content: center;
