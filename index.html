@@ -670,207 +670,119 @@
             Fyll i de obligatoriska fälten innan du skickar in formuläret.
           </div>
 
-          <form id="waitlistForm" novalidate>
-            <div class="row">
-              <div>
-                <label for="name">För- och efternamn <span style="color:#fecaca">*</span></label>
-                <input id="name" name="name" type="text" placeholder="Ditt för- och efternamn" required />
-                <div class="error-text" id="nameError">Fyll i ditt för- och efternamn.</div>
-              </div>
-              <div>
-                <label for="email">E-post <span style="color:#fecaca">*</span></label>
-                <input id="email" name="email" type="email" placeholder="du@mail.com" required />
-                <div class="error-text" id="emailError">Fyll i en giltig e-postadress.</div>
-              </div>
-            </div>
+<form id="waitlistForm" novalidate>
+  <div class="row">
+    <div>
+      <label for="name">För- och efternamn <span style="color:#fecaca">*</span></label>
+      <input id="name" name="name" type="text" placeholder="Ditt för- och efternamn" required />
+      <div class="error-text" id="nameError">Fyll i ditt för- och efternamn.</div>
+    </div>
+    <div>
+      <label for="email">E-post <span style="color:#fecaca">*</span></label>
+      <input id="email" name="email" type="email" placeholder="du@mail.com" required />
+      <div class="error-text" id="emailError">Fyll i en giltig e-postadress.</div>
+    </div>
+  </div>
 
-            <div class="row">
-              <div>
-                <label for="phone">Telefonnummer</label>
-                <input id="phone" name="phone" type="tel" placeholder="Valfritt" />
-              </div>
-              <div>
-                <label for="season">När planerar du säsongen?</label>
-                <select id="season" name="season">
-                  <option value="">Välj period</option>
-                  <option>Vintern 2026/2027</option>
-                  <option>Sommaren 2026</option>
-                  <option>Så snart som möjligt</option>
-                  <option>Bara nyfiken</option>
-                </select>
-              </div>
-            </div>
+  <div>
+    <label>Destination <span style="color:#fecaca">*</span></label>
+    <div class="multi-select" data-name="destination" data-required="true">
+      <button type="button" class="multi-select-button">
+        <span>Välj destinationer</span>
+      </button>
+      <div class="multi-select-dropdown">
+        <div class="multi-select-group">
+          <label class="multi-select-option">
+            <input type="checkbox" value="Sverige"> Sverige
+          </label>
+          <label class="multi-select-option"><input type="checkbox" value="Åre"> Åre</label>
+          <label class="multi-select-option"><input type="checkbox" value="Sälen"> Sälen</label>
+          <label class="multi-select-option"><input type="checkbox" value="Vemdalen"> Vemdalen</label>
+        </div>
 
-            <div>
-              <label>Destination <span style="color:#fecaca">*</span></label>
-              <div class="multi-select" data-name="destination" data-required="true">
-                <button type="button" class="multi-select-button">
-                  <span>Välj destinationer</span>
-                </button>
-                <div class="multi-select-dropdown">
-                  <div class="multi-select-group">
-                    <label class="multi-select-option">
-                      <input type="checkbox" value="Sverige"> Sverige
-                    </label>
-                    <label class="multi-select-option"><input type="checkbox" value="Åre"> Åre</label>
-                    <label class="multi-select-option"><input type="checkbox" value="Sälen"> Sälen</label>
-                    <label class="multi-select-option"><input type="checkbox" value="Vemdalen"> Vemdalen</label>
-                  </div>
+        <div class="multi-select-group">
+          <label class="multi-select-option">
+            <input type="checkbox" value="Norge"> Norge
+          </label>
+          <label class="multi-select-option"><input type="checkbox" value="Trysil"> Trysil</label>
+          <label class="multi-select-option"><input type="checkbox" value="Hemsedal"> Hemsedal</label>
+          <label class="multi-select-option"><input type="checkbox" value="Geilo"> Geilo</label>
+        </div>
 
-                  <div class="multi-select-group">
-                    <label class="multi-select-option">
-                      <input type="checkbox" value="Norge"> Norge
-                    </label>
-                    <label class="multi-select-option"><input type="checkbox" value="Trysil"> Trysil</label>
-                    <label class="multi-select-option"><input type="checkbox" value="Hemsedal"> Hemsedal</label>
-                    <label class="multi-select-option"><input type="checkbox" value="Geilo"> Geilo</label>
-                  </div>
+        <div class="multi-select-group">
+          <label class="multi-select-option">
+            <input type="checkbox" value="Alperna"> Alperna
+          </label>
+          <div class="multi-select-group-title" style="font-size:0.72rem; margin-top:10px;">Frankrike</div>
+          <label class="multi-select-option"><input type="checkbox" value="Chamonix"> Chamonix</label>
+          <label class="multi-select-option"><input type="checkbox" value="Val Thorens"> Val Thorens</label>
 
-                  <div class="multi-select-group">
-                    <label class="multi-select-option">
-                      <input type="checkbox" value="Alperna"> Alperna
-                    </label>
-                    <div class="multi-select-group-title" style="font-size:0.72rem; margin-top:10px;">Frankrike</div>
-                    <label class="multi-select-option"><input type="checkbox" value="Chamonix"> Chamonix</label>
-                    <label class="multi-select-option"><input type="checkbox" value="Val Thorens"> Val Thorens</label>
+          <div class="multi-select-group-title" style="font-size:0.72rem; margin-top:10px;">Schweiz</div>
+          <label class="multi-select-option"><input type="checkbox" value="Verbier"> Verbier</label>
 
-                    <div class="multi-select-group-title" style="font-size:0.72rem; margin-top:10px;">Schweiz</div>
-                    <label class="multi-select-option"><input type="checkbox" value="Verbier"> Verbier</label>
+          <div class="multi-select-group-title" style="font-size:0.72rem; margin-top:10px;">Österrike</div>
+          <label class="multi-select-option"><input type="checkbox" value="St Anton"> St Anton</label>
+        </div>
 
-                    <div class="multi-select-group-title" style="font-size:0.72rem; margin-top:10px;">Österrike</div>
-                    <label class="multi-select-option"><input type="checkbox" value="St Anton"> St Anton</label>
-                  </div>
+        <div class="multi-select-group">
+          <div class="multi-select-group-title">Annat</div>
+          <label class="multi-select-option"><input type="checkbox" value="Annan destination"> Annan destination</label>
+        </div>
+      </div>
+    </div>
+    <div class="helper-text">Du kan välja flera alternativ.</div>
+    <div class="error-text" id="destinationError">Välj minst en destination.</div>
+  </div>
 
-                  <div class="multi-select-group">
-                    <div class="multi-select-group-title">Annat</div>
-                    <label class="multi-select-option"><input type="checkbox" value="Annan destination"> Annan destination</label>
-                  </div>
-                </div>
-              </div>
-              <div class="helper-text">Du kan välja flera alternativ.</div>
-              <div class="error-text" id="destinationError">Välj minst en destination.</div>
-            </div>
+  <div class="hidden-field" id="otherDestinationWrap">
+    <label for="otherDestination">Vilken annan destination?</label>
+    <input
+      id="otherDestination"
+      name="otherDestination"
+      type="text"
+      placeholder="Skriv destination"
+    />
+    <div class="error-text" id="otherDestinationError">Skriv vilken annan destination du söker.</div>
+  </div>
 
-            <div class="hidden-field" id="otherDestinationWrap">
-              <label for="otherDestination">Vilken annan destination?</label>
-              <input
-                id="otherDestination"
-                name="otherDestination"
-                type="text"
-                placeholder="Skriv destination"
-              />
-              <div class="error-text" id="otherDestinationError">Skriv vilken annan destination du söker.</div>
-            </div>
+  <div>
+    <label>Vad söker du? <span style="color:#fecaca">*</span></label>
+    <div class="multi-select" data-name="interest" data-required="true">
+      <button type="button" class="multi-select-button">
+        <span>Välj vad du söker</span>
+      </button>
+      <div class="multi-select-dropdown">
+        <label class="multi-select-option"><input type="checkbox" value="Jobb"> Jobb</label>
+        <label class="multi-select-option"><input type="checkbox" value="Boende"> Boende</label>
+        <label class="multi-select-option"><input type="checkbox" value="Både och"> Både och</label>
+      </div>
+    </div>
+    <div class="helper-text">Välj det som är relevant för dig.</div>
+    <div class="error-text" id="interestError">Välj minst ett alternativ.</div>
+  </div>
 
-            <div>
-              <label>Vad söker du? <span style="color:#fecaca">*</span></label>
-              <div class="multi-select" data-name="interest" data-required="true">
-                <button type="button" class="multi-select-button">
-                  <span>Välj vad du söker</span>
-                </button>
-                <div class="multi-select-dropdown">
-                  <label class="multi-select-option"><input type="checkbox" value="Jobb"> Jobb</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Boende"> Boende</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Annat"> Annat</label>
-                </div>
-              </div>
-              <div class="helper-text">Du kan välja flera alternativ.</div>
-              <div class="error-text" id="interestError">Välj minst ett alternativ.</div>
-            </div>
+  <div>
+    <label class="consent-row" for="consent">
+      <input id="consent" name="consent" type="checkbox" required />
+      <span>
+        Jag godkänner att Seasonbase behandlar mina personuppgifter för att administrera waitlisten och kontakta mig om lanseringen.
+        <a href="privacy.html" target="_blank" rel="noopener">Läs vår integritetspolicy</a>.
+        <span style="color:#fecaca">*</span>
+      </span>
+    </label>
+    <div class="error-text" id="consentError">Du behöver godkänna detta för att gå med i waitlisten.</div>
+  </div>
 
-            <div class="hidden-field" id="otherInterestWrap">
-              <label for="otherInterest">Vad söker du mer specifikt?</label>
-              <input
-                id="otherInterest"
-                name="otherInterest"
-                type="text"
-                placeholder="Skriv vad du söker"
-              />
-              <div class="error-text" id="otherInterestError">Skriv vad du söker när du väljer annat.</div>
-            </div>
+  <button type="submit" class="cta">Säkra min plats</button>
 
-            <div>
-              <label>Önskad typ av jobb</label>
-              <div class="multi-select" data-name="jobType">
-                <button type="button" class="multi-select-button">
-                  <span>Välj jobbkategorier</span>
-                </button>
-                <div class="multi-select-dropdown">
-                  <label class="multi-select-option"><input type="checkbox" value="Hotell"> Hotell</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Restaurang / bar"> Restaurang / bar</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Butik"> Butik</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Lift / skidområde"> Lift / skidområde</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Skidlärare"> Skidlärare</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Guide / aktivitet"> Guide / aktivitet</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Chaufför / transfer"> Chaufför / transfer</label>
-                  <label class="multi-select-option"><input type="checkbox" value="Annat"> Annat</label>
-                </div>
-              </div>
-              <div class="helper-text">Bra för att matcha rätt arbetsgivare och partners.</div>
-            </div>
+  <div class="mini-note">
+    Tar under 20 sekunder. Ingen spam. Vi hör av oss när tidig access öppnar.
+  </div>
 
-            <div class="hidden-field" id="otherJobTypeWrap">
-              <label for="otherJobType">Vilken typ av jobb söker du?</label>
-              <input
-                id="otherJobType"
-                name="otherJobType"
-                type="text"
-                placeholder="Skriv önskad typ av jobb"
-              />
-              <div class="error-text" id="otherJobTypeError">Skriv vilken typ av jobb du söker när du väljer annat.</div>
-            </div>
-
-            <div class="row">
-              <div>
-                <label for="experience">Gjort säsong tidigare?</label>
-                <select id="experience" name="experience">
-                  <option value="">Välj</option>
-                  <option>Ja</option>
-                  <option>Nej</option>
-                </select>
-              </div>
-              <div>
-                <label for="housing-status">Har du redan boende ordnat?</label>
-                <select id="housing-status" name="housingStatus">
-                  <option value="">Välj</option>
-                  <option>Ja</option>
-                  <option>Nej</option>
-                  <option>Delvis / osäkert</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label for="challenge">Största problemet just nu?</label>
-              <textarea
-                id="challenge"
-                name="challenge"
-                placeholder="T.ex. svårt att få svar på jobb, hitta boende eller veta vilka destinationer som passar"
-              ></textarea>
-            </div>
-
-            <div>
-              <label class="consent-row" for="consent">
-                <input id="consent" name="consent" type="checkbox" required />
-                <span>
-                  Jag godkänner att Seasonbase behandlar mina personuppgifter för att administrera waitlisten och kontakta mig om lanseringen.
-                  <a href="privacy.html" target="_blank" rel="noopener">Läs vår integritetspolicy</a>.
-                  <span style="color:#fecaca">*</span>
-                </span>
-              </label>
-              <div class="error-text" id="consentError">Du behöver godkänna detta för att gå med i waitlisten.</div>
-            </div>
-
-            <button type="submit" class="cta">Säkra min plats</button>
-
-            <div class="mini-note">
-              Fält markerade med * är obligatoriska. Ingen spam. Vi hör av oss när tidig access öppnar.
-            </div>
-
-            <div class="success-message" id="successMessage">
-              Tack — du är med på waitlisten.
-            </div>
-          </form>
+  <div class="success-message" id="successMessage">
+    Tack — du är med på waitlisten.
+  </div>
+</form>
         </div>
       </div>
     </section>
