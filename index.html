@@ -128,6 +128,18 @@
   z-index: 0;
 }
 
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 220px;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(147, 218, 247, 0.22), transparent 32%),
+    radial-gradient(circle at 78% 0%, rgba(255, 255, 255, 0.08), transparent 24%);
+}
+    
 .left,
 .form-wrap {
   position: relative;
