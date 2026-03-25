@@ -158,7 +158,6 @@ app.post("/api/waitlist", async (req, res) => {
     }
 
     const entry = {
-      id: crypto.randomUUID(),
       name,
       email,
       form_version: formVersion,
@@ -169,19 +168,13 @@ app.post("/api/waitlist", async (req, res) => {
       }
     };
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("waitlist_entries")
-      .insert([entry]);
+      .upsert([entry], { onConflict: "email" })
+      .select();
 
     if (error) {
-      if (error.code === "23505") {
-        return res.status(409).json({
-          ok: false,
-          error: "This email is already on the waitlist"
-        });
-      }
-
-      console.error("Supabase insert error:", error);
+      console.error("Supabase upsert error:", error);
       return res.status(500).json({
         ok: false,
         error: "Could not save waitlist entry"
@@ -190,7 +183,8 @@ app.post("/api/waitlist", async (req, res) => {
 
     return res.status(201).json({
       ok: true,
-      message: "Saved to waitlist"
+      message: "Saved to waitlist",
+      data
     });
   } catch (error) {
     console.error("Error saving waitlist entry:", error);
