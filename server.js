@@ -201,6 +201,29 @@ app.post("/api/waitlist", async (req, res) => {
   }
 });
 
+app.get("/api/debug-supabase", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("waitlist_entries")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Debug select error:", error);
+      return res.status(500).json({ ok: false, error });
+    }
+
+    return res.json({
+      ok: true,
+      supabaseUrl: process.env.SUPABASE_URL,
+      count: data.length,
+      rows: data
+    });
+  } catch (err) {
+    console.error("Debug route crash:", err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
