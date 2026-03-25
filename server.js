@@ -157,7 +157,7 @@ app.post("/api/waitlist", async (req, res) => {
       }
     }
 
-    const entry = {
+    const payload = {
       name,
       email,
       form_version: formVersion,
@@ -168,13 +168,51 @@ app.post("/api/waitlist", async (req, res) => {
       }
     };
 
-    const { data, error } = await supabase
+    const { data: existingRow, error: selectError } = await supabase
       .from("waitlist_entries")
-      .upsert([entry], { onConflict: "email" })
-      .select();
+      .select("id,email")
+      .eq("email", email)
+      .maybeSingle();
 
-    if (error) {
-      console.error("Supabase upsert error:", error);
+    if (selectError) {
+      console.error("Supabase select error:", selectError);
+      return res.status(500).json({
+        ok: false,
+        error: "Could not save waitlist entry"
+      });
+    }
+
+    if (existingRow) {
+      const { error: updateError } = await supabase
+        .from("waitlist_entries")
+        .update(payload)
+        .eq("email", email);
+
+      if (updateError) {
+        console.error("Supabase update error:", updateError);
+        return res.status(500).json({
+          ok: false,
+          error: "Could not save waitlist entry"
+        });
+      }
+
+      return res.status(200).json({
+        ok: true,
+        message: "Updated existing waitlist entry"
+      });
+    }
+
+    const { error: insertError } = await supabase
+      .from("waitlist_entries")
+      .insert([
+        {
+          id: crypto.randomUUID(),
+          ...payload
+        }
+      ]);
+
+    if (insertError) {
+      console.error("Supabase insert error:", insertError);
       return res.status(500).json({
         ok: false,
         error: "Could not save waitlist entry"
@@ -183,8 +221,7 @@ app.post("/api/waitlist", async (req, res) => {
 
     return res.status(201).json({
       ok: true,
-      message: "Saved to waitlist",
-      data
+      message: "Saved to waitlist"
     });
   } catch (error) {
     console.error("Error saving waitlist entry:", error);
