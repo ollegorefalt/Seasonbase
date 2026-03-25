@@ -2,9 +2,15 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 app.use(express.json());
 
@@ -117,7 +123,7 @@ app.get("/api/health", (req, res) => {
   res.json({ ok: true });
 });
 
-app.post("/api/waitlist", (req, res) => {
+app.post("/api/waitlist", async (req, res) => {
   try {
     const body = req.body || {};
 
@@ -151,33 +157,36 @@ app.post("/api/waitlist", (req, res) => {
       }
     }
 
-    const entries = readEntries();
-
-    const duplicate = entries.find(
-      (entry) => entry.email.toLowerCase() === email.toLowerCase()
-    );
-
-    if (duplicate) {
-      return res.status(409).json({
-        ok: false,
-        error: "This email is already on the waitlist"
-      });
-    }
-
-    const newEntry = {
+    const entry = {
       id: crypto.randomUUID(),
       name,
       email,
-      phone,
-      season,
-      formVersion,
-      answers,
-      createdAt: new Date().toISOString()
+      form_version: formVersion,
+      answers: {
+        phone,
+        season,
+        ...answers
+      }
     };
 
-    entries.push(newEntry);
-    writeEntries(entries);
-    writeCsv(entries);
+    const { error } = await supabase
+      .from("waitlist_entries")
+      .insert([entry]);
+
+    if (error) {
+      if (error.code === "23505") {
+        return res.status(409).json({
+          ok: false,
+          error: "This email is already on the waitlist"
+        });
+      }
+
+      console.error("Supabase insert error:", error);
+      return res.status(500).json({
+        ok: false,
+        error: "Could not save waitlist entry"
+      });
+    }
 
     return res.status(201).json({
       ok: true,
@@ -191,6 +200,7 @@ app.post("/api/waitlist", (req, res) => {
     });
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
