@@ -71,6 +71,37 @@
       padding: 14px 0 4px;
     }
 
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+
+    .language-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 0 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.055);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    }
+
+    .language-link:hover {
+      border-color: rgba(120, 201, 238, 0.5);
+      color: var(--text);
+      background: rgba(255,255,255,0.08);
+    }
+    
     .logo {
       display: inline-flex;
       align-items: center;
@@ -669,13 +700,16 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <nav class="nav">
+  <nav class="nav">
+    <div class="nav-inner">
       <div class="logo">
         <span class="logo-mark"></span>
         <span>Seasonbase</span>
       </div>
-    </nav>
+
+      <a href="/en/" class="language-link">English</a>
+    </div>
+  </nav>
 
     <section class="hero">
       <div class="left">
